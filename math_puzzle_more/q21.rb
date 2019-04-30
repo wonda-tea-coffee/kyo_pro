@@ -1,37 +1,63 @@
-s = Time.now
+# s = Time.now
+
+# PAGE, DAYS = 140, 18
+# @memo = {}
+
+# 本のページ数を100ページとする
+# これを day 日で読める最小のページ数は、
+# 1 + 2 + ... + day = day * (day + 1) / 2
+
+# # page ページの本を day 日で読むパターンの総数を求める
+# def solve2(page, day)
+#   return @memo[[page, day]] if @memo[[page, day]]
+#   return 1 if day == 1
+#   return 0 if page < day * (day + 1) / 2
+
+#   ans = 0
+
+#   hoge{
+#     ans += solve2(n - i, day - 1)
+#   }
+
+#   @memo[[page, day]] = ans
+# end
+
+# ans = 0
+# # nページの本をm日以内に読むパターンの総数を求める
+# 1.upto(m){|i| ans += solve2(n, i) }
+
+# puts ans
+# puts "#{Time.now - s}s"
+
+PAGES, DAYS = 100, 2
 
 @memo = {}
+def search(page, days)
+  return @memo[[page, days]] if @memo[[page, days]]
 
-# nページの本をm日で読むパターンの総数を求める
-# ただし、前日にはkページ読んだものとする
-def solve2(n, m, k)
-  return @memo[[n, m, k]] if @memo[[n, m, k]]
+  return 1 if days == 1
+  cnt = 0
 
-  return m == 0 ? 1 : 0 if n == 0
-  # 残り1日のときは、残りのページ数が前日に読んだページ数を下回っていたならば読み切れる
-  return n < k ? 1 : 0 if m == 1
+  (page - days * (days - 1) / 2) / days
 
-  # 前日にkページ読んているとき、m日で読める最大のページ数は、
-  # (k - 1) + (k - 2) + ... + (k - m) = km - m(m + 1)/2 < n
-  return @memo[[n, m, k]] = 0 if k * m < n + m * (m + 1) / 2
+  # (残りページ) - [days-1]日で読める最小のページ
 
-  ans = 0
-  m_minus1 = m-1
-  min = k-1 < n ? k-1 : n
-  min.downto(1){|i|
-    # solve2(100, 2, 101) = solve2(0, 1, )
-    ans += solve2(n-i, m_minus1, i)
-  }
-
-  @memo[[n, m, k]] = ans
+  puts "1 ~ #{(page - days * (days - 1) / 2) / days}"
+  1.upto((page - days * (days - 1) / 2) / days) do |i|
+    s = search(page - i * days, days - 1)
+    # i =  1: search(98, 1)
+    # i =  2: search(96, 1)
+    # ~
+    # i = 49: search( 2, 1)
+    puts "  search(#{page - i * days}, #{days - 1}) = #{s}"
+    cnt += s
+  end
+  @memo[[page, days]] = cnt
 end
 
-# nページの本をm日以内に読むパターンの総数を求める
-def solve(n, m)
-  ans = 0
-  1.upto(m){|i| ans += solve2(n, i, n + 1) }
-  ans
+cnt = 0
+1.upto(DAYS) do |i|
+  cnt += search(PAGES, i)
 end
 
-puts solve(180, 14)
-puts "#{Time.now - s}s"
+puts cnt
