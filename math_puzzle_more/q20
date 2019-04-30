@@ -1,0 +1,34 @@
+s = Time.now
+
+$max = 15  # 15
+$start = 3 # 3
+$goal = 10  # 10
+$arrived = Array.new($max + 1, false)
+
+$arrived[$start] = true
+
+def solve(position, is_up)
+  return 1 if position == $goal
+
+  ans = 0
+  add = is_up ? 1 : -1
+  position += add
+
+  while 1 <= position && position <= $max
+    if $arrived[position]
+      position += add
+      next
+    end
+
+    $arrived[position] = true
+    ans += solve(position, !is_up)
+    $arrived[position] = false
+    position += add
+  end
+
+  ans
+end
+
+$queue = 
+puts solve($start, true)
+puts "#{Time.now - s}s"
