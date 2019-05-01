@@ -1,8 +1,6 @@
 s = Time.now
 
-N = 24
-A = 10
-B = 10
+N, A, B = 24, 10, 10
 S = A + B
 @memo = {}
 
