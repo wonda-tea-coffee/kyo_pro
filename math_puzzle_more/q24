@@ -1,0 +1,21 @@
+def f_2(n)
+  return 1 if n == 0
+  # 1-1, 2
+  return 2 if n == 1
+  # 左端に4人座る、左端に2*1人 or 1*2人座る
+  f_2(n-2) + 2*f_2(n-1)
+end
+
+def f_3(n)
+  return 1 if n == 0
+  # 3, 2-1, 1-2, 1-1-1
+  return 4 if n == 1
+  3*f_3(n-2) + 4*f_3(n-1)
+end
+
+# n >= 2
+def f(n)
+  3*f_3(n-2)*f_2(n) + f_3(n-1)*f_2(n-1) + 4*f_3(n-1)*f_2(n)
+end
+
+puts f(12)
