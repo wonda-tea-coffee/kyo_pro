@@ -26,10 +26,6 @@ const int LIM = 305;
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
-struct Status {
-  int x, y, t;
-};
-
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -59,8 +55,10 @@ int main() {
   //   cout << endl;
   // }
 
-  queue<Status> qs;
-  qs.push(Status{0, 0, 0});
+  queue<int> qx, qy, qt;
+  qx.push(0);
+  qy.push(0);
+  qt.push(0);
   mins[0][0] = 0;
 
   if (times[0][0] == 0) {
@@ -68,11 +66,10 @@ int main() {
     return 0;
   }
 
-  while (!qs.empty()) {
-    Status status = qs.front(); qs.pop();
-    int x = status.x;
-    int y = status.y;
-    int t = status.t;
+  while (!qx.empty()) {
+    int x = qx.front(); qx.pop();
+    int y = qy.front(); qy.pop();
+    int t = qt.front(); qt.pop();
 
     if (times[y][x] == INF) {
       // cout << "y = " << y << ", x = " << x << endl;
@@ -85,8 +82,11 @@ int main() {
       int ny = y + dy[i];
 
       if (0 <= nx && 0 <= ny && t + 1 < min(mins[ny][nx], times[ny][nx])) {
-        Status nStatus = {nx, ny, t + 1};
-        qs.push(nStatus);
+        qx.push(nx);
+        qy.push(ny);
+        qt.push(t + 1);
+
+        mins[ny][nx] = t + 1;
       }
     }
   }
