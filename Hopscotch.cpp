@@ -19,7 +19,6 @@
 #define REVERSE(a) reverse((a).begin(), (a).end());
 
 using namespace std;
-using P = pair<int,int>;
 
 const int MOD = 1000000007; // 10^9 + 7
 const int dx[4] = {0, 0, -1, 1};
@@ -31,7 +30,7 @@ int main() {
 
   int a[5][5];
   REP(i, 5)REP(j, 5) cin >> a[i][j];
-  set<P> knowns;
+  set<pair<int,int>> knowns;
   set<int> ans;
 
   REP(i, 5)REP(j, 5) {
@@ -50,17 +49,21 @@ int main() {
       // cout << "y = " << y << ", x = " << x << ", " << c << ", r = " << r << endl;
 
       if (c == 6) {
+        // if (ans.find(r) == ans.end()) {
+        //   if (r == 11) cout << "i = " << i << ", j = " << j << endl;
+        //   cout << r << endl;
+        // }
         ans.insert(r);
         continue;
       }
-      knowns.insert(make_pair(y * 10 + x, r));
+      knowns.insert(make_pair(y * 100 + x * 10 + c, r));
 
       for (int k = 0; k < 4; k++) {
         int nx = x + dx[k];
         int ny = y + dy[k];
 
         if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5) continue;
-        P pn = make_pair(10 * ny + nx, r * 10 + a[ny][nx]);
+        pair<int,int> pn = make_pair(ny * 100 + nx * 10 + (c + 1), r * 10 + a[ny][nx]);
         if (knowns.find(pn) == knowns.end()) {
           knowns.insert(pn);
 
