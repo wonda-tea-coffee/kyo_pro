@@ -26,26 +26,17 @@ int R, N;
 
 int solve(vector<int> a) {
   SORT(a)
-  int ans = 0;
-  int covered = -1;
-  int left = a[0];
 
-  for (int i = 1; i < N; i++) {
-    if (a[i] <= covered) continue;
+  int i = 0, ans = 0;
+  while (i < N) {
+    int s = a[i++];
+    while (i < N && a[i] <= s + R) i++;
 
-    if (left == -1) left = a[i];
+    int p = a[i - 1];
+    while (i < N && a[i] <= p + R) i++;
 
-    if (a[i] - left > R) {
-      covered = a[i - 1] + R;
-      left = -1;
-      ans++;
-    } else if (a[i] - left == R) {
-      covered = a[i] + R;
-      left = -1;
-      ans++;
-    }
+    ans++;
   }
-  if (a[N - 1] > covered) ans++;
 
   return ans;
 }
