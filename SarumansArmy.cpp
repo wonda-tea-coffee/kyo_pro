@@ -29,10 +29,14 @@ int solve(vector<int> a) {
 
   int i = 0, ans = 0;
   while (i < N) {
+    // sはカバーされていない一番左の点
     int s = a[i++];
+    // sから距離Rを超える点まで進む
     while (i < N && a[i] <= s + R) i++;
 
+    // pは新しく印をつける点
     int p = a[i - 1];
+    // pから距離Rを超える点まで進む
     while (i < N && a[i] <= p + R) i++;
 
     ans++;
