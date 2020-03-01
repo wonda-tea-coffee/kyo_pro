@@ -8,25 +8,24 @@ using namespace std;
 typedef pair<int,int> pii;
 
 int N, T;
-pii sect[25010];
+pii s[25010];
 
 int main() {
-  scanf("%d%d", &N, &T);
-
+  cin >> N >> T;
   for (int i = 0; i < N; i++) {
     int a, b; cin >> a >> b;
-    sect[i] = pii(a - 1, b);
+    s[i] = pii(a - 1, b);
   }
-  sort(sect, sect + N);
+  sort(s, s + N);
 
-  int ans = 0, r = 0, pos = 0;
+  int ans = 0, r = 0, si = 0;
 
   while (r < T) {
     int mr = 0;
-    while (pos < N && sect[pos].first <= r)
-      mr = max(mr, sect[pos++].second);
+    while (si < N && s[si].first <= r)
+      mr = max(mr, s[si++].second);
     ans++;
-    if (pos == N) {
+    if (si == N) {
       if (mr < T) ans = -1;
       break;
     }
