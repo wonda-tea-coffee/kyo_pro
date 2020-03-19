@@ -43,8 +43,42 @@ const ll MOD = 1000000007; // 10^9 + 7
 const int dx[8] = {1, 0, -1, 0, 1, -1, -1, 1};
 const int dy[8] = {0, 1, 0, -1, 1, 1, -1, -1};
 
+template<class T>
+void outvo(vector<T> v) {
+  cout << v[0];
+  for (int i = 1; i < v.size(); i++)
+    cout << " " << v[i];
+  cout << endl;
+}
+
 void solve() {
-  
+  ll n; cin >> n;
+  vector<tuple<int, int, int>> v(n);
+  rep(i, n) {
+    ll s, t; cin >> s >> t;
+    v[i] = make_tuple(s + t, s, t);
+  }
+  sort(v);
+
+  ll ans = 0, tm1 = 0, tm2 = 0;
+  rep(i, n) {
+    tuple<int, int, int> tup = v[i];
+    ll s = get<1>(tup), t = get<2>(tup);
+    if (tm1 < tm2) swap(tm1, tm2);
+    // debug3(i, tm1, tm2);
+    if (tm1 <= s) {
+      // debug(i);
+      ans++;
+      tm1 = s + t;
+      if (t == 0) tm1++;
+    } else if (tm2 <= s) {
+      // debug(i);
+      ans++;
+      tm2 = s + t;
+      if (t == 0) tm2++;
+    }
+  }
+  outl(ans);
 }
 
 int main() {
