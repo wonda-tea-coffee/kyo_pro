@@ -46,24 +46,27 @@ const int dy[8] = {0, 1, 0, -1, 1, 1, -1, -1};
 void solve() {
   int a, n, k; cin >> a >> n >> k;
   vector<int> w(n); rep(i, n) cin >> w[i];
-  int dp[1005][1005] = {};
+  const int MAX = 1005;
+  int dp[MAX] = {};
 
-  dp[0][0] = 1;
+  for (int i = 1; i < MAX; i++) dp[i] = -1;
+
+  dp[0] = 0;
   for (int i = 0; i < n; i++) {
     int wi = w[i];
-    dp[1][wi] = 1;
-    for (int j = 0; j < k; j++) {
-      if (dp[i][j])
+    for (int j = a; j >= wi; j--) {
+      if (dp[j - wi] >= 0) {
+        if (dp[j] == -1) dp[j] = dp[j - wi] + 1;
+        else dp[j] = min(dp[j], dp[j - wi] + 1);
+      }
     }
   }
 
-  for (int i = 1; i <= k; i++) {
-    if (dp[i][a]) {
-      YES();
-      return;
-    }
-  }
-  NO();
+  // for (int i = 0; i < MAX; i++)
+  //   debug2(i, dp[i]);
+
+  if (dp[a] != -1 && dp[a] <= k) YES();
+  else NO();
 }
 
 int main() {

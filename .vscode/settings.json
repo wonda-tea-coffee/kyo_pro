@@ -11,6 +11,8 @@
     "iostream": "cpp",
     "utility": "cpp",
     "stack": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "ios": "cpp",
+    "tuple": "cpp"
   }
 }
